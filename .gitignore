@@ -1,0 +1,9 @@
+.idea
+.env
+*.json
+
+terraform/.terraform
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/terraform.tfstate.d
+terraform/.terraform.lock.hcl
