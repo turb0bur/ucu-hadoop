@@ -1,0 +1,339 @@
+﻿{
+  "paragraphs": [
+    {
+      "title": "Create Result Table for Genre Counts",
+      "text": "%hive\nCREATE TABLE IF NOT EXISTS genre_counts_task4 (\n  genre STRING,\n  count INT\n)\nSTORED AS ORC;",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-21T22:12:30+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Query executed successfully. Affected rows : -1"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1741556222334_57144803",
+      "id": "paragraph_1741556222245_827541533",
+      "dateCreated": "2025-03-09T21:37:02+0000",
+      "dateStarted": "2025-03-21T22:12:30+0000",
+      "dateFinished": "2025-03-21T22:12:33+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:5113"
+    },
+    {
+      "title": "Insert Data into Genre Counts Table",
+      "text": "%hive\n-- Enable dynamic partitioning and necessary settings\nSET hive.execution.engine=tez;\nSET hive.exec.dynamic.partition=true;\nSET hive.exec.dynamic.partition.mode=nonstrict;\n\n-- Insert genre counts into the results table\nINSERT OVERWRITE TABLE genre_counts_task4\nSELECT genre, COUNT(*) AS count\nFROM (\n  SELECT \n    m.MovieID,\n    g.genre\n  FROM \n    movies m\n    LATERAL VIEW explode(split(Genres, '\\\\|')) g AS genre\n) exploded_genres\nGROUP BY genre\nHAVING COUNT(*) > 200\nORDER BY count DESC;",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-21T22:12:37+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Query executed successfully. Affected rows : -1\n"
+          },
+          {
+            "type": "TEXT",
+            "data": "Query executed successfully. Affected rows : -1\n"
+          },
+          {
+            "type": "TEXT",
+            "data": "Query executed successfully. Affected rows : -1\n"
+          },
+          {
+            "type": "TEXT",
+            "data": "Query executed successfully. Affected rows : -1"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1741556222334_1092900550",
+      "id": "paragraph_1741556222245_1003396918",
+      "dateCreated": "2025-03-09T21:37:02+0000",
+      "dateStarted": "2025-03-21T22:12:37+0000",
+      "dateFinished": "2025-03-21T22:13:12+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:5114"
+    },
+    {
+      "title": "View Table Data",
+      "text": "%hive\nSELECT * FROM genre_counts_task4;",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-21T22:14:47+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "title": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "genre": "string",
+                      "count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "genre\tcount\nDrama\t22111\nComedy\t14831\nThriller\t7645\nRomance\t6718\nAction\t6678\nHorror\t5361\nDocumentary\t5083\n(no genres listed)\t4913\nCrime\t4615\nAdventure\t3558\nSci-Fi\t3261\nAnimation\t2712\nChildren\t2632\nMystery\t2516\nFantasy\t2399\nWar\t1578\nWestern\t1173\nMusical\t851\nFilm-Noir\t253\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1741556222334_1209957186",
+      "id": "paragraph_1741556222245_1531232565",
+      "dateCreated": "2025-03-09T21:37:02+0000",
+      "dateStarted": "2025-03-21T22:14:47+0000",
+      "dateFinished": "2025-03-21T22:15:06+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:5115"
+    },
+    {
+      "title": "Filter Genres with More Than 200 Movies",
+      "text": "%hive\nSELECT genre, count \nFROM genre_counts_task4\nWHERE count > 200\nORDER BY count DESC;",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-21T22:40:21+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "title": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": true,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "genre": "string",
+                      "count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "genre\tcount\nDrama\t22111\nComedy\t14831\nThriller\t7645\nRomance\t6718\nAction\t6678\nHorror\t5361\nDocumentary\t5083\n(no genres listed)\t4913\nCrime\t4615\nAdventure\t3558\nSci-Fi\t3261\nAnimation\t2712\nChildren\t2632\nMystery\t2516\nFantasy\t2399\nWar\t1578\nWestern\t1173\nMusical\t851\nFilm-Noir\t253\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1741556222334_1860043496",
+      "id": "paragraph_1741556222245_1542341135",
+      "dateCreated": "2025-03-09T21:37:02+0000",
+      "dateStarted": "2025-03-21T22:31:56+0000",
+      "dateFinished": "2025-03-21T22:32:12+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:5116"
+    },
+    {
+      "title": "Check Output on HDFS or GCS",
+      "text": "%sh\n# -- Inspect the saved results on HDFS\n# hdfs dfs -ls /user/hive/warehouse/genre_counts_task4/;\n\n# -- Inspect the saved results on GCS\ngsutil ls -lh gs://ucu-hadoop-staging/warehouse/genre_counts_task4/*",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-21T22:43:05+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sh",
+          "editOnDblClick": false,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/sh",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "       0 B  2025-03-09T21:41:48Z  gs://ucu-hadoop-staging/warehouse/genre_counts_task4/\n     540 B  2025-03-21T22:13:10Z  gs://ucu-hadoop-staging/warehouse/genre_counts_task4/000000_0\nTOTAL: 2 objects, 540 bytes (540 B)\nWARNING:  Python 3.5-3.7 will be deprecated on August 8th, 2023. Please use Python version 3.8 and up.\n\nIf you have a compatible Python interpreter installed, you can use it by setting\nthe CLOUDSDK_PYTHON environment variable to point to it.\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1741556222334_876414549",
+      "id": "paragraph_1741556222245_1162852832",
+      "dateCreated": "2025-03-09T21:37:02+0000",
+      "dateStarted": "2025-03-21T22:40:40+0000",
+      "dateFinished": "2025-03-21T22:40:43+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:5117"
+    },
+    {
+      "text": "%sh\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-09T22:20:48+0000",
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1741558848780_1717168436",
+      "id": "paragraph_1741558848780_1717168436",
+      "dateCreated": "2025-03-09T22:20:48+0000",
+      "status": "READY",
+      "$$hashKey": "object:5118"
+    }
+  ],
+  "name": "Task 4 - Hive - 2025 - Count Movies by Genre",
+  "id": "2KP4CGGGH",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0-preview2",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/Task 4 - Hive - 2025 - Count Movies by Genre"
+}

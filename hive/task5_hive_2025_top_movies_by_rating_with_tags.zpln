@@ -1,0 +1,234 @@
+﻿{
+  "paragraphs": [
+    {
+      "title": "Create Result Table for Top Movies by Tag",
+      "text": "%hive\nCREATE TABLE IF NOT EXISTS top_movies_by_tag_task5 (\n  tag STRING,\n  movie_id INT,\n  title STRING,\n  avg_rating DOUBLE,\n  rank INT\n)\nSTORED AS ORC;",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-21T23:19:17+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Query executed successfully. Affected rows : -1"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742598095106_1782597980",
+      "id": "paragraph_1742598095017_412620622",
+      "dateCreated": "2025-03-21T23:01:35+0000",
+      "dateStarted": "2025-03-21T23:19:17+0000",
+      "dateFinished": "2025-03-21T23:19:17+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:321"
+    },
+    {
+      "title": "Insert Data into Top Movies by Tag Table",
+      "text": "%hive\r\n\r\nSET hive.execution.engine=tez;\r\nSET hive.exec.dynamic.partition=true;\r\nSET hive.exec.dynamic.partition.mode=nonstrict;\r\n\r\nINSERT OVERWRITE TABLE top_movies_by_tag_task5\r\nSELECT \r\n  tm.tag,\r\n  tm.movie_id,\r\n  tm.title,\r\n  tm.avg_rating,\r\n  tm.rank\r\nFROM (\r\n  SELECT \r\n    t.tag,\r\n    t.movieId AS movie_id,\r\n    m.title,\r\n    AVG(r.rating) AS avg_rating,\r\n    DENSE_RANK() OVER (PARTITION BY t.tag ORDER BY AVG(r.rating) DESC) AS rank\r\n  FROM \r\n    tags t\r\n  JOIN \r\n    ratings r ON t.movieId = r.movieId\r\n  JOIN\r\n    movies m ON t.movieId = m.movieId\r\n  WHERE \r\n    t.tag IN ('based on a book', 'based on a play')\r\n  GROUP BY \r\n    t.tag, t.movieId, m.title\r\n) tm\r\nWHERE \r\n  tm.rank <= 5\r\nORDER BY \r\n  tm.tag, tm.rank;",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-21T23:46:49+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/text",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "title": true,
+        "results": {
+          "3": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "movieid": "string",
+                      "tag": "string",
+                      "avg_rating": "string",
+                      "rank": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Query executed successfully. Affected rows : -1\n"
+          },
+          {
+            "type": "TEXT",
+            "data": "Query executed successfully. Affected rows : -1\n"
+          },
+          {
+            "type": "TEXT",
+            "data": "Query executed successfully. Affected rows : -1\n"
+          },
+          {
+            "type": "TEXT",
+            "data": "Query executed successfully. Affected rows : -1"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742598095106_983420518",
+      "id": "paragraph_1742598095017_1120601383",
+      "dateCreated": "2025-03-21T23:01:35+0000",
+      "dateStarted": "2025-03-21T23:38:15+0000",
+      "dateFinished": "2025-03-21T23:41:39+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:322"
+    },
+    {
+      "title": "View Table Data",
+      "text": "%hive\nSELECT * FROM top_movies_by_tag_task5;",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-21T23:47:37+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "title": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 384,
+              "optionOpen": false
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742598095106_2098047879",
+      "id": "paragraph_1742598095018_504096377",
+      "dateCreated": "2025-03-21T23:01:35+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:323",
+      "dateFinished": "2025-03-21T23:42:25+0000",
+      "dateStarted": "2025-03-21T23:42:09+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "tag\tmovie_id\ttitle\tavg_rating\trank\nbased on a book\t139895\t\"English\t4.5\t1\nbased on a book\t318\t\"Shawshank Redemption\t4.413576004516335\t2\nbased on a book\t158958\tPollyanna (2003)\t4.384615384615385\t3\nbased on a book\t858\t\"Godfather\t4.324336165187245\t4\nbased on a book\t189473\t\"Red\t4.25\t5\nbased on a play\t198183\tThe Caretaker (1963)\t4.25\t1\nbased on a play\t1203\t12 Angry Men (1957)\t4.243014062405697\t2\nbased on a play\t912\tCasablanca (1942)\t4.206563778356267\t3\nbased on a play\t1217\tRan (1985)\t4.142049808429118\t4\nbased on a play\t27423\t\"O Auto da Compadecida (Dog's Will\t4.124260355029586\t5\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%hive\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-21T23:42:09+0000",
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742600529094_139477842",
+      "id": "paragraph_1742600529094_139477842",
+      "dateCreated": "2025-03-21T23:42:09+0000",
+      "status": "READY",
+      "focus": true,
+      "$$hashKey": "object:2124"
+    }
+  ],
+  "name": "Task 5 - Top Movies by Average Rating with Specific Tags",
+  "id": "2KRR6MBYM",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0-preview2",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/Task 5 - Top Movies by Average Rating with Specific Tags"
+}
