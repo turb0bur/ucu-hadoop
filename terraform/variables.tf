@@ -43,8 +43,5 @@ variable "hadoop_cluster" {
       disk_size_gb = number
       count        = number
     })
-    lifecycle_config = object({
-      idle_delete_ttl = string
-    })
   })
 }

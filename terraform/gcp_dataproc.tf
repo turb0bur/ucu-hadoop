@@ -40,10 +40,6 @@ resource "google_dataproc_cluster" "hadoop_cluster" {
     endpoint_config {
       enable_http_port_access = var.hadoop_cluster.enable_component_gateway
     }
-
-    lifecycle_config {
-      idle_delete_ttl = var.hadoop_cluster.lifecycle_config.idle_delete_ttl
-    }
   }
 
   labels = {

@@ -18,7 +18,4 @@ hadoop_cluster = {
     disk_size_gb = 50
     count        = 2
   }
-  lifecycle_config = {
-    idle_delete_ttl = "3600s"
-  }
 }
