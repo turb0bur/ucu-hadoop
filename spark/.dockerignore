@@ -1,0 +1,36 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Docker
+.docker/
+docker-compose.yaml
+.dockerignore
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Spark
+spark-warehouse/
+metastore_db/
+derby.log
+
+# Jupyter Notebook
+.ipynb_checkpoints 
