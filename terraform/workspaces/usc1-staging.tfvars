@@ -11,11 +11,11 @@ hadoop_cluster = {
   ]
   master = {
     machine_type = "e2-standard-4"
-    disk_size_gb = 50
+    disk_size_gb = 100
   }
   worker = {
     machine_type = "e2-standard-4"
-    disk_size_gb = 50
+    disk_size_gb = 100
     count        = 2
   }
 }
