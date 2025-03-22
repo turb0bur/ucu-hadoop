@@ -47,7 +47,7 @@ terraform init
 I use convention `region-environment` for workspace names. For example, `usc1-staging` for a staging environment in the `us-central1` region.
 ```bash
 terraform workspace list
-terraform workspace new usc1-staging || terraform workspace select usc1-staging
+terraform workspace select usc1-staging || terraform workspace new usc1-staging
 ```
 
 4. Review the deployment plan:
