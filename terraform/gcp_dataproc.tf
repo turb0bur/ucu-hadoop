@@ -40,6 +40,20 @@ resource "google_dataproc_cluster" "hadoop_cluster" {
     endpoint_config {
       enable_http_port_access = var.hadoop_cluster.enable_component_gateway
     }
+
+    gce_cluster_config {
+      service_account_scopes = [
+        "https://www.googleapis.com/auth/bigquery",
+        "https://www.googleapis.com/auth/bigtable.admin.table",
+        "https://www.googleapis.com/auth/bigtable.data",
+        "https://www.googleapis.com/auth/cloud.useraccounts.readonly",
+        "https://www.googleapis.com/auth/devstorage.full_control",
+        "https://www.googleapis.com/auth/devstorage.read_write",
+        "https://www.googleapis.com/auth/logging.write",
+        "https://www.googleapis.com/auth/monitoring.write",
+        "https://www.googleapis.com/auth/cloud-platform"
+      ]
+    }
   }
 
   labels = {
