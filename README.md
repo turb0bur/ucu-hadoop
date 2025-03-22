@@ -43,10 +43,11 @@ cd terraform
 terraform init
 ```
 
-3. Create a terraform workspace:
+3. Create or select a terraform workspace:
 I use convention `region-environment` for workspace names. For example, `usc1-staging` for a staging environment in the `us-central1` region.
 ```bash
-terraform workspace new usc1-staging
+terraform workspace list
+terraform workspace new usc1-staging || terraform workspace select usc1-staging
 ```
 
 4. Review the deployment plan:
