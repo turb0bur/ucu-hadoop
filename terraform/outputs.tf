@@ -6,7 +6,6 @@ output "cluster_name" {
 output "master_instance" {
   description = "Master node instance details"
   value = {
-    name        = google_dataproc_cluster.hadoop_cluster.cluster_config[0].master_config[0].instance_names[0]
     hostname    = google_dataproc_cluster.hadoop_cluster.cluster_config[0].master_config[0].instance_names[0]
     zone        = var.zone
     ssh_command = "gcloud compute ssh ${google_dataproc_cluster.hadoop_cluster.cluster_config[0].master_config[0].instance_names[0]} --zone=${var.zone} --project=${var.project_id}"
