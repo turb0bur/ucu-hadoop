@@ -12,6 +12,7 @@ if __name__ == "__main__":
     spark = SparkSession\
         .builder\
         .appName("PythonWordCount")\
+        .master("spark://master:7077")\
         .getOrCreate()
 
     lines = spark.read.text(sys.argv[1]).rdd.map(lambda r: r[0])

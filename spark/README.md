@@ -66,6 +66,8 @@ docker exec spark-master spark-submit /apps/wordcount.py /files/example.txt
 
 This example.txt file is a copy of this README.md, which is included in the Docker image as a sample text file to process.
 
+4. After running the job, you can view details about the completed application in the Spark Web UI at http://localhost:8088. The application will be listed under "Completed Applications" with the name "PythonWordCount".
+
 ## Configuration
 
 - The Spark cluster consists of a master node (`spark-master`) and a worker node (`spark-worker`)
