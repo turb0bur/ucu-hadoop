@@ -6,6 +6,7 @@ This project contains Terraform configurations to deploy a Google Cloud Dataproc
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Subprojects](#subprojects)
 
 ## Introduction
 This project is a learning exercise to deploy a Hadoop cluster on Google Cloud Platform using Terraform. 
@@ -63,3 +64,21 @@ terraform apply --var-file=workspaces/usc1-staging.tfvars
 ```bash
 terraform destroy --var-file=workspaces/usc1-staging.tfvars
 ```
+
+## Subprojects
+
+This repository contains several subprojects for different Big Data technologies:
+
+### Terraform
+- **Location**: [terraform/](terraform/)
+- **Description**: Contains Terraform configurations for deploying a Google Cloud Dataproc cluster and associated resources.
+
+### Hive
+- **Location**: [hive/](hive/)
+- **Description**: Contains Hive projects using Apache Zeppelin notebooks for movie data analysis.
+- **Documentation**: [hive/README.md](hive/README.md)
+
+### Spark
+- **Location**: [spark/](spark/)
+- **Description**: Contains a PySpark WordCount application with Docker configuration for local development.
+- **Documentation**: [spark/README.md](spark/README.md)
