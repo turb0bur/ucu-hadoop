@@ -85,4 +85,5 @@ This repository contains several subprojects for different Big Data technologies
 - **Subprojects**:
   - **WordCount**: A PySpark WordCount application with Docker configuration for local development.
   - **RDD Movie Analysis**: [spark/rdd/](spark/rdd/) - Analyzes MovieLens dataset using Spark RDD API.
-- **Documentation**: [spark/README.md](spark/README.md), [spark/rdd/README.md](spark/rdd/README.md)
+  - **SQL Movie Analysis**: [spark/sql/](spark/sql/) - Analyzes MovieLens dataset using Spark SQL and DataFrame API.
+- **Documentation**: [spark/README.md](spark/README.md), [spark/rdd/README.md](spark/rdd/README.md), [spark/sql/README.md](spark/sql/README.md)
