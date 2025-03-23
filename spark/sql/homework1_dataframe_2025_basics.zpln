@@ -1,0 +1,644 @@
+﻿{
+  "paragraphs": [
+    {
+      "title": "Read the data and display sample data",
+      "text": "%pyspark\n\nmovies_df = spark.read.option(\"header\", True) \\\n    .csv(\"gs://oklev-uku-datasets/movie-ratings/movies.csv\")\n    \nprint(\"Schema:\")\nmovies_df.printSchema()\nprint(\"\\nSample data:\")\nmovies_df.show(5, truncate=False)",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T10:52:35+0000",
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Schema:\nroot\n |-- movieId: string (nullable = true)\n |-- title: string (nullable = true)\n |-- genres: string (nullable = true)\n\n\nSample data:\n+-------+----------------------------------+-------------------------------------------+\n|movieId|title                             |genres                                     |\n+-------+----------------------------------+-------------------------------------------+\n|1      |Toy Story (1995)                  |Adventure|Animation|Children|Comedy|Fantasy|\n|2      |Jumanji (1995)                    |Adventure|Children|Fantasy                 |\n|3      |Grumpier Old Men (1995)           |Comedy|Romance                             |\n|4      |Waiting to Exhale (1995)          |Comedy|Drama|Romance                       |\n|5      |Father of the Bride Part II (1995)|Comedy                                     |\n+-------+----------------------------------+-------------------------------------------+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=0",
+              "$$hashKey": "object:3487"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=1",
+              "$$hashKey": "object:3488"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742726542601_1082666262",
+      "id": "paragraph_1742726542601_1082666262",
+      "dateCreated": "2025-03-23T10:42:22+0000",
+      "dateStarted": "2025-03-23T10:50:00+0000",
+      "dateFinished": "2025-03-23T10:50:07+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:3231"
+    },
+    {
+      "title": "Task 1: Find number of movies in the dataset",
+      "text": "%pyspark\n\nprint(\"\\nTask 1: Number of movies in the dataset\")\nnum_movies = movies_df.count()\nprint(f\"Number of movies: {num_movies}\")",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T11:15:33+0000",
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nTask 1: Number of movies in the dataset\nNumber of movies: 62423\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=21",
+              "$$hashKey": "object:4730"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742726764007_308861777",
+      "id": "paragraph_1742726764007_308861777",
+      "dateCreated": "2025-03-23T10:46:04+0000",
+      "dateStarted": "2025-03-23T11:15:33+0000",
+      "dateFinished": "2025-03-23T11:15:33+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3232"
+    },
+    {
+      "title": "Task 2: How many movies of \"Comedy\" genre database contains?",
+      "text": "%pyspark\n\nfrom pyspark.sql.functions import col\n\nprint(\"\\nTask 2: Number of Comedy movies\")\ncomedy_count = movies_df.filter(col(\"genres\").contains(\"Comedy\")).count()\nprint(f\"Number of Comedy movies: {comedy_count}\")",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T11:15:28+0000",
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nTask 2: Number of Comedy movies\nNumber of Comedy movies: 16870\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=20",
+              "$$hashKey": "object:4677"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742727184160_822430423",
+      "id": "paragraph_1742727184160_822430423",
+      "dateCreated": "2025-03-23T10:53:04+0000",
+      "dateStarted": "2025-03-23T11:15:28+0000",
+      "dateFinished": "2025-03-23T11:15:29+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3233"
+    },
+    {
+      "title": "Task 3: What are the earliest and the latest years represented in the database?",
+      "text": "%pyspark\n\nfrom pyspark.sql.functions import col, regexp_extract, min, max\nfrom pyspark.sql.types import IntegerType\n\nprint(\"\\nTask 3: Earliest and latest years\")\nmovies_with_year = movies_df.withColumn(\n    \"year\", \n    regexp_extract(col(\"title\"), r\"\\((\\d{4})\\)\", 1).cast(IntegerType())\n)\n\nmovies_with_year = movies_with_year.filter(col(\"year\").isNotNull())\n\nyears_result = movies_with_year.agg(\n    min(\"year\").alias(\"earliest_year\"),\n    max(\"year\").alias(\"latest_year\")\n)\nyears_result.show()",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T11:15:21+0000",
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nTask 3: Earliest and latest years\n+-------------+-----------+\n|earliest_year|latest_year|\n+-------------+-----------+\n|         1874|       2019|\n+-------------+-----------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=19",
+              "$$hashKey": "object:4624"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742727281481_633179104",
+      "id": "paragraph_1742727281481_633179104",
+      "dateCreated": "2025-03-23T10:54:41+0000",
+      "dateStarted": "2025-03-23T11:15:21+0000",
+      "dateFinished": "2025-03-23T11:15:22+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3234"
+    },
+    {
+      "title": "Task 4: What is the minimum, average and maximum number of genres per single movie?",
+      "text": "%pyspark\n\nfrom pyspark.sql.functions import col, min, max, avg, udf\nfrom pyspark.sql.types import IntegerType\n\nprint(\"\\nTask 4: Min, avg, max number of genres per movie\")\n\ndef count_genres(genres_str):\n    if genres_str == \"(no genres listed)\":\n        return 0\n    return len(genres_str.split(\"|\"))\n\ncount_genres_udf = udf(count_genres, IntegerType())\n\ngenre_counts = movies_df.withColumn(\"genre_count\", count_genres_udf(col(\"genres\")))\n\ngenre_stats = genre_counts.agg(\n    min(\"genre_count\").alias(\"min_genres\"),\n    avg(\"genre_count\").alias(\"avg_genres\"),\n    max(\"genre_count\").alias(\"max_genres\")\n)\ngenre_stats.show()",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T11:15:16+0000",
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python",
+        "title": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nTask 4: Min, avg, max number of genres per movie\n+----------+------------------+----------+\n|min_genres|        avg_genres|max_genres|\n+----------+------------------+----------+\n|         0|1.7180366211172164|        10|\n+----------+------------------+----------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=18",
+              "$$hashKey": "object:4571"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742727541823_200134110",
+      "id": "paragraph_1742727541823_200134110",
+      "dateCreated": "2025-03-23T10:59:01+0000",
+      "dateStarted": "2025-03-23T11:15:16+0000",
+      "dateFinished": "2025-03-23T11:15:17+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3235"
+    },
+    {
+      "title": "Task 5: For each genre, find the number of movies of that genre",
+      "text": "%pyspark\n\nfrom pyspark.sql.functions import col, explode, udf, desc\nfrom pyspark.sql.types import ArrayType, StringType\n\nprint(\"\\nTask 5: Number of movies per genre\")\n\n@udf(returnType=ArrayType(StringType()))\ndef explode_genres(genres_str):\n    if genres_str == \"(no genres listed)\":\n        return [\"(no genres listed)\"]\n    return genres_str.split(\"|\")\n\n\ngenres_exploded = movies_df.withColumn(\"genre_array\", explode_genres(col(\"genres\"))) \\\n    .select(explode(\"genre_array\").alias(\"genre\"))\n\ngenre_counts = genres_exploded.groupBy(\"genre\").count().orderBy(col(\"count\").desc())\ngenre_counts.show(20, truncate=False)",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T11:15:05+0000",
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nTask 5: Number of movies per genre\n+------------------+-----+\n|genre             |count|\n+------------------+-----+\n|Drama             |25606|\n|Comedy            |16870|\n|Thriller          |8654 |\n|Romance           |7719 |\n|Action            |7348 |\n|Horror            |5989 |\n|Documentary       |5605 |\n|Crime             |5319 |\n|(no genres listed)|5062 |\n|Adventure         |4145 |\n|Sci-Fi            |3595 |\n|Children          |2935 |\n|Animation         |2929 |\n|Mystery           |2925 |\n|Fantasy           |2731 |\n|War               |1874 |\n|Western           |1399 |\n|Musical           |1054 |\n|Film-Noir         |353  |\n|IMAX              |195  |\n+------------------+-----+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=17",
+              "$$hashKey": "object:4514"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742727882920_842690514",
+      "id": "paragraph_1742727882920_842690514",
+      "dateCreated": "2025-03-23T11:04:42+0000",
+      "dateStarted": "2025-03-23T11:15:05+0000",
+      "dateFinished": "2025-03-23T11:15:06+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3236"
+    },
+    {
+      "title": "Task 6: Show the list of unique genres represented in the dataset",
+      "text": "%pyspark\n\nfrom pyspark.sql.functions import col\n\nprint(\"\\nTask 6: List of unique genres\")\nunique_genres = genres_exploded \\\n    .filter(col(\"genre\") != \"(no genres listed)\") \\\n    .distinct()\n    \nprint(\"Unique genres:\")\nunique_genres.show(20, truncate=False)",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T11:11:00+0000",
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=9",
+              "$$hashKey": "object:4052"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=10",
+              "$$hashKey": "object:4053"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=11",
+              "$$hashKey": "object:4054"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=12",
+              "$$hashKey": "object:4055"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=13",
+              "$$hashKey": "object:4056"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742728035559_223646161",
+      "id": "paragraph_1742728035559_223646161",
+      "dateCreated": "2025-03-23T11:07:15+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3237",
+      "dateFinished": "2025-03-23T11:11:02+0000",
+      "dateStarted": "2025-03-23T11:11:00+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nTask 6: List of unique genres\nUnique genres:\n+-----------+\n|genre      |\n+-----------+\n|Crime      |\n|Romance    |\n|Thriller   |\n|Adventure  |\n|Drama      |\n|War        |\n|Documentary|\n|Fantasy    |\n|Mystery    |\n|Musical    |\n|Animation  |\n|Film-Noir  |\n|IMAX       |\n|Horror     |\n|Western    |\n|Comedy     |\n|Children   |\n|Action     |\n|Sci-Fi     |\n+-----------+\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%pyspark\n\nimport re\nfrom pyspark.sql.functions import col, length\n\nprint(\"\\nTask 7: Longest movie name\")\n\n@udf(returnType=StringType())\ndef clean_title(title):\n    return re.sub(r'\\s*\\(\\d{4}\\)\\s*', '', title)\n\nlongest_title = movies_df.withColumn(\"clean_title\", clean_title(col(\"title\"))) \\\n    .withColumn(\"title_length\", length(col(\"clean_title\"))) \\\n    .orderBy(col(\"title_length\").desc()) \\\n    .select(\"title_length\", \"clean_title\") \\\n    .first()\n\nprint(f\"Longest title has {longest_title[0]} characters: {longest_title[1]}\")",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T11:12:54+0000",
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=14",
+              "$$hashKey": "object:4228"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742728260606_1894737970",
+      "id": "paragraph_1742728260606_1894737970",
+      "dateCreated": "2025-03-23T11:11:00+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:3882",
+      "dateFinished": "2025-03-23T11:12:55+0000",
+      "dateStarted": "2025-03-23T11:12:54+0000",
+      "title": "Task 7: What is the longest movie name in the dataset?",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nTask 7: Longest movie name\nLongest title has 184 characters: Godzilla, Mothra, and King Ghidorah: Giant Monsters All-Out Attack (Gojira, Mosura, Kingu Gidorâ: Daikaijû sôkôgeki) (Godzilla, Mothra and King Ghidorah: Giant Monsters All-Out Attack)\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%pyspark\n\nprint(\"\\nTask 8: Reused movie names\")\nreused_names = movies_df.groupBy(\"title\") \\\n    .count() \\\n    .filter(col(\"count\") > 1) \\\n    .orderBy(\"title\")\n\nprint(\"Movie names that appear more than once:\")\nreused_names.show(10, truncate=False)",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T11:14:11+0000",
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=15",
+              "$$hashKey": "object:4342"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742728365700_881216703",
+      "id": "paragraph_1742728365700_881216703",
+      "dateCreated": "2025-03-23T11:12:45+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:4090",
+      "dateFinished": "2025-03-23T11:14:13+0000",
+      "dateStarted": "2025-03-23T11:14:11+0000",
+      "title": "Task 8: Show the list of reused movie names",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nTask 8: Reused movie names\nMovie names that appear more than once:\n+-------------------------+-----+\n|title                    |count|\n+-------------------------+-----+\n|9 (2009)                 |2    |\n|Absolution (2015)        |2    |\n|Aladdin (1992)           |2    |\n|Alone (2017)             |2    |\n|American Woman (2019)    |2    |\n|An Inspector Calls (2015)|2    |\n|Another World (2014)     |2    |\n|Apparition (2014)        |2    |\n|Ava (2017)               |2    |\n|Beats (2019)             |2    |\n+-------------------------+-----+\nonly showing top 10 rows\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%pyspark\n\nprint(\"\\nTask 9: Top 10 most frequently used film names\")\ntop_reused_names = reused_names.orderBy(col(\"count\").desc()).limit(10)\ntop_reused_names.show(truncate=False)",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T11:14:45+0000",
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=16",
+              "$$hashKey": "object:4466"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742728451480_1722739363",
+      "id": "paragraph_1742728451480_1722739363",
+      "dateCreated": "2025-03-23T11:14:11+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:4242",
+      "dateFinished": "2025-03-23T11:14:47+0000",
+      "dateStarted": "2025-03-23T11:14:45+0000",
+      "title": "Task 9: Top 10 most frequently used film names",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nTask 9: Top 10 most frequently used film names\n+-------------------------+-----+\n|title                    |count|\n+-------------------------+-----+\n|Casanova (2005)          |2    |\n|Another World (2014)     |2    |\n|Believer (2018)          |2    |\n|Eros (2004)              |2    |\n|Let There Be Light (2017)|2    |\n|Slow Burn (2000)         |2    |\n|Absolution (2015)        |2    |\n|Paradise (2013)          |2    |\n|The Promise (2016)       |2    |\n|Reset (2017)             |2    |\n+-------------------------+-----+\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%pyspark\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T11:14:45+0000",
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742728485388_1314257315",
+      "id": "paragraph_1742728485388_1314257315",
+      "dateCreated": "2025-03-23T11:14:45+0000",
+      "status": "READY",
+      "focus": true,
+      "$$hashKey": "object:4366"
+    }
+  ],
+  "name": "Homework 1 - DataFrame basics - 2025",
+  "id": "2KSHT7UTF",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0-preview2",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/Homework 1 - DataFrame/Homework 1 - DataFrame/DataFrame/Homework 1 - DataFrame/Homework 1 - DataFrame basics - 2025"
+}

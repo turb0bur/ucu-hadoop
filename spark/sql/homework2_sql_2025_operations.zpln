@@ -1,0 +1,571 @@
+﻿{
+  "paragraphs": [
+    {
+      "title": "Read the data and display sample data",
+      "text": "%pyspark\r\n\r\nmovies_df = spark.read.option(\"header\", True) \\\r\n    .csv(\"gs://oklev-uku-datasets/movie-ratings/movies.csv\")\r\n    \r\nratings_df = spark.read.option(\"header\", True) \\\r\n    .csv(\"gs://oklev-uku-datasets/movie-ratings/ratings.csv\") \\\r\n    .withColumn(\"rating\", col(\"rating\").cast(\"float\"))\r\n\r\nmovies_df.createOrReplaceTempView(\"movies\")\r\nratings_df.createOrReplaceTempView(\"ratings\")\r\n\r\nprint(\"Movies schema:\")\r\nmovies_df.printSchema()\r\nprint(\"\\nRatings schema:\")\r\nratings_df.printSchema()\r\n\r\nprint(\"Sample movies data:\")\r\nmovies_df.show(5, truncate=False)\r\nprint(\"\\nSample ratings data:\")\r\nratings_df.show(5, truncate=False)\r\n\r\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T12:38:46+0000",
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Movies schema:\nroot\n |-- movieId: string (nullable = true)\n |-- title: string (nullable = true)\n |-- genres: string (nullable = true)\n\n\nRatings schema:\nroot\n |-- userId: string (nullable = true)\n |-- movieId: string (nullable = true)\n |-- rating: float (nullable = true)\n |-- timestamp: string (nullable = true)\n\nSample movies data:\n+-------+----------------------------------+-------------------------------------------+\n|movieId|title                             |genres                                     |\n+-------+----------------------------------+-------------------------------------------+\n|1      |Toy Story (1995)                  |Adventure|Animation|Children|Comedy|Fantasy|\n|2      |Jumanji (1995)                    |Adventure|Children|Fantasy                 |\n|3      |Grumpier Old Men (1995)           |Comedy|Romance                             |\n|4      |Waiting to Exhale (1995)          |Comedy|Drama|Romance                       |\n|5      |Father of the Bride Part II (1995)|Comedy                                     |\n+-------+----------------------------------+-------------------------------------------+\nonly showing top 5 rows\n\n\nSample ratings data:\n+------+-------+------+----------+\n|userId|movieId|rating|timestamp |\n+------+-------+------+----------+\n|1     |296    |5.0   |1147880044|\n|1     |306    |3.5   |1147868817|\n|1     |307    |5.0   |1147868828|\n|1     |665    |5.0   |1147878820|\n|1     |899    |3.5   |1147868510|\n+------+-------+------+----------+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=56",
+              "$$hashKey": "object:6959"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=57",
+              "$$hashKey": "object:6960"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=58",
+              "$$hashKey": "object:6961"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=59",
+              "$$hashKey": "object:6962"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742733234960_2111526462",
+      "id": "20170907-200823_323163859",
+      "dateCreated": "2025-03-23T12:33:54+0000",
+      "dateStarted": "2025-03-23T12:38:46+0000",
+      "dateFinished": "2025-03-23T12:38:47+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:6833"
+    },
+    {
+      "title": "Task 1: For each user, find total number of ratings provided",
+      "text": "%spark.sql\n\nSELECT userId, COUNT(*) as ratings_count\nFROM ratings\nGROUP BY userId\nLIMIT 10;",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T12:41:45+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "editorHide": false,
+        "title": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "userId": "string",
+                      "ratings_count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "userId\tratings_count\n296\t388\n467\t20\n675\t129\n691\t57\n829\t105\n1090\t27\n1159\t87\n1436\t505\n1512\t41\n1572\t92\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=60",
+              "$$hashKey": "object:7004"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742733234961_843562542",
+      "id": "20170907-201504_56102511",
+      "dateCreated": "2025-03-23T12:33:54+0000",
+      "dateStarted": "2025-03-23T12:41:23+0000",
+      "dateFinished": "2025-03-23T12:41:44+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:6834"
+    },
+    {
+      "title": "Task 2: How many movies an average user has ranked?",
+      "text": "%spark.sql\n\nWITH user_counts AS (\n    SELECT userId, COUNT(*) as ratings_count\n    FROM ratings\n    GROUP BY userId\n)\n\nSELECT \n    COUNT(DISTINCT userId) as total_users,\n    SUM(ratings_count) as total_ratings,\n    SUM(ratings_count) / COUNT(DISTINCT userId) as avg_ratings_per_user\nFROM user_counts;",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T12:43:07+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "editorHide": false,
+        "title": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "total_users": "string",
+                      "total_ratings": "string",
+                      "avg_ratings_per_user": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "total_users\ttotal_ratings\tavg_ratings_per_user\n162541\t25000095\t153.80793153727367\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=61",
+              "$$hashKey": "object:7470"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742733234961_1593216556",
+      "id": "20170907-210255_509274879",
+      "dateCreated": "2025-03-23T12:33:54+0000",
+      "dateStarted": "2025-03-23T12:42:06+0000",
+      "dateFinished": "2025-03-23T12:42:29+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:6835"
+    },
+    {
+      "title": "Task 3: For each user, find the minimum, maximum and average rating they provided",
+      "text": "%spark.sql\n\nSELECT \n    userId,\n    MIN(rating) as min_rating,\n    MAX(rating) as max_rating,\n    AVG(rating) as avg_rating\nFROM ratings\nGROUP BY userId\nLIMIT 10;",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T12:44:51+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "editorHide": false,
+        "title": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "userId": "string",
+                      "min_rating": "string",
+                      "max_rating": "string",
+                      "avg_rating": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "userId\tmin_rating\tmax_rating\tavg_rating\n296\t0.5\t5.0\t2.8762886597938144\n467\t2.5\t4.5\t3.425\n675\t2.5\t5.0\t3.8255813953488373\n691\t2.5\t5.0\t4.333333333333333\n829\t0.5\t4.5\t2.942857142857143\n1090\t1.0\t5.0\t4.148148148148148\n1159\t0.5\t5.0\t3.7471264367816093\n1436\t1.0\t5.0\t3.485148514851485\n1512\t1.0\t5.0\t4.390243902439025\n1572\t1.0\t5.0\t3.8369565217391304\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=62",
+              "$$hashKey": "object:8231"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742733234961_1035323799",
+      "id": "20170907-205249_1462604242",
+      "dateCreated": "2025-03-23T12:33:54+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:6836",
+      "dateFinished": "2025-03-23T12:44:51+0000",
+      "dateStarted": "2025-03-23T12:44:23+0000"
+    },
+    {
+      "title": "Task 4: Find top 10 movies by average rating (with at least 100 ratings)",
+      "text": "%spark.sql\n\nWITH movie_stats AS (\n    SELECT \n        movieId,\n        AVG(rating) as avg_rating,\n        COUNT(*) as ratings_count\n    FROM ratings\n    GROUP BY movieId\n    HAVING COUNT(*) >= 100\n)\n\nSELECT \n    m.title,\n    s.avg_rating\nFROM movie_stats s\nJOIN movies m ON s.movieId = m.movieId\nORDER BY s.avg_rating DESC\nLIMIT 10;",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T12:51:03+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "editorHide": false,
+        "title": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "title": "string",
+                      "avg_rating": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "title\tavg_rating\nPlanet Earth II (2016)\t4.483096085409253\nPlanet Earth (2006)\t4.464796794504865\nShawshank Redemption, The (1994)\t4.413576004516335\nBand of Brothers (2001)\t4.398598820058997\nCosmos\t4.3267148014440435\nGodfather, The (1972)\t4.324336165187245\nBlue Planet II (2017)\t4.289833080424886\nUsual Suspects, The (1995)\t4.284353213163313\nTwin Peaks (1989)\t4.267361111111111\nGodfather: Part II, The (1974)\t4.2617585117585115\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=63",
+              "$$hashKey": "object:8844"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=64",
+              "$$hashKey": "object:8845"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742733234961_1284850656",
+      "id": "20170907-210004_1625380893",
+      "dateCreated": "2025-03-23T12:33:54+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:6837",
+      "dateFinished": "2025-03-23T12:51:02+0000",
+      "dateStarted": "2025-03-23T12:50:34+0000"
+    },
+    {
+      "title": "Task 5: Provide a list of genre preferences for each user",
+      "text": "%spark.sql\n\nCREATE OR REPLACE TEMPORARY VIEW movie_genres AS\nSELECT \n    movieId,\n    explode(split(genres, '\\\\|')) as genre\nFROM movies;\n\nSELECT \n    r.userId,\n    g.genre,\n    COUNT(*) as ratings_count,\n    AVG(r.rating) as avg_rating\nFROM ratings r\nJOIN movie_genres g ON r.movieId = g.movieId\nGROUP BY r.userId, g.genre\nLIMIT 10;",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T12:52:26+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/text",
+        "editorHide": false,
+        "fontSize": 9,
+        "title": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "userId": "string",
+                      "genre": "string",
+                      "ratings_count": "string",
+                      "avg_rating": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "userId\tgenre\tratings_count\tavg_rating\n33\tDrama\t17\t4.205882352941177\n47\tWestern\t3\t4.0\n71\tAction\t16\t4.25\n139\tMusical\t2\t3.25\n163\tWar\t2\t3.75\n164\tFantasy\t21\t3.9285714285714284\n169\tWestern\t2\t3.75\n172\tDrama\t96\t3.84375\n174\tMusical\t3\t2.5\n183\tDrama\t19\t4.2105263157894735\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=65",
+              "$$hashKey": "object:9617"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:40417/jobs/job?id=66",
+              "$$hashKey": "object:9618"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742733234961_1424709990",
+      "id": "20170907-210326_346981091",
+      "dateCreated": "2025-03-23T12:33:54+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:6838",
+      "dateFinished": "2025-03-23T12:52:26+0000",
+      "dateStarted": "2025-03-23T12:51:38+0000"
+    },
+    {
+      "text": "%pyspark\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T12:33:54+0000",
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742733234961_975838304",
+      "id": "paragraph_1742690866363_1537852192",
+      "dateCreated": "2025-03-23T12:33:54+0000",
+      "status": "READY",
+      "$$hashKey": "object:6839"
+    }
+  ],
+  "name": "Homework 2 - SparkSQL operations - 2025",
+  "id": "2KR2CDHCM",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0-preview2",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/Homework 2 - SparkSQL operations - 2025"
+}
