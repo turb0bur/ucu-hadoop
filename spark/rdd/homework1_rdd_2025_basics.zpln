@@ -1,0 +1,672 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "\n%pyspark\n\ndef parse_movie_record(s):\n    id = s.split(\",\")[0]\n    genres = s.split(\",\")[-1]\n    name = ','.join(s.split(\",\")[1:-1])\n    name = name.replace('\"','')\n    return (id,name,genres)\n\nraw_data = sc.textFile('gs://oklev-uku-datasets/movie-ratings/movies.csv')\nheader = raw_data.first()\ndata_without_header = raw_data.filter(lambda line: line != header)\nmovies = data_without_header.map(parse_movie_record)\n\nmovies.take(5)",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T00:09:37+0000",
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[('1', 'Toy Story (1995)', 'Adventure|Animation|Children|Comedy|Fantasy'), ('2', 'Jumanji (1995)', 'Adventure|Children|Fantasy'), ('3', 'Grumpier Old Men (1995)', 'Comedy|Romance'), ('4', 'Waiting to Exhale (1995)', 'Comedy|Drama|Romance'), ('5', 'Father of the Bride Part II (1995)', 'Comedy')]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=107",
+              "$$hashKey": "object:7759"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=108",
+              "$$hashKey": "object:7760"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742683115645_810006778",
+      "id": "20230202-105047_974048313",
+      "dateCreated": "2025-03-22T22:38:35+0000",
+      "dateStarted": "2025-03-23T00:09:37+0000",
+      "dateFinished": "2025-03-23T00:09:37+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:6520"
+    },
+    {
+      "title": "Find number of movies in the dataset",
+      "text": "%pyspark\n\nmovies.count()",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-22T23:54:16+0000",
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "tableHide": false,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "62423\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=75",
+              "$$hashKey": "object:6971"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742683115646_1134232435",
+      "id": "20230202-105047_1259607941",
+      "dateCreated": "2025-03-22T22:38:35+0000",
+      "dateStarted": "2025-03-22T23:54:16+0000",
+      "dateFinished": "2025-03-22T23:54:17+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:6521"
+    },
+    {
+      "title": "How many movies of \"Comedy\" genre database contains?",
+      "text": "%pyspark\n\nmovies.filter(lambda x: \"Comedy\" in x[2]).count()",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T00:09:33+0000",
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "tableHide": false,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "16870\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=76",
+              "$$hashKey": "object:7673"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742683115646_1404607895",
+      "id": "20230202-105047_1577191194",
+      "dateCreated": "2025-03-22T22:38:35+0000",
+      "dateStarted": "2025-03-22T23:54:22+0000",
+      "dateFinished": "2025-03-22T23:54:22+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:6522"
+    },
+    {
+      "title": "What are the earliest and the latest years represented in the database?",
+      "text": "%pyspark\n\nimport re\n\ndef extract_year(movie_name):\n    year_match = re.search(r'\\((\\d{4})\\)', movie_name)\n    if year_match:\n        return int(year_match.group(1))\n    return None\n\n\nmovies_with_years = movies \\\n    .map(lambda x: extract_year(x[1])) \\\n    .filter(lambda x: x is not None)\n    \nearliest_year = movies_with_years.min()\nlatest_year = movies_with_years.max()\n\n(earliest_year, latest_year)",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T00:09:27+0000",
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "tableHide": false,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(1874, 2019)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=105",
+              "$$hashKey": "object:7663"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=106",
+              "$$hashKey": "object:7664"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742683115646_803040585",
+      "id": "20230202-105047_1485629451",
+      "dateCreated": "2025-03-22T22:38:35+0000",
+      "dateStarted": "2025-03-23T00:09:27+0000",
+      "dateFinished": "2025-03-23T00:09:27+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:6523"
+    },
+    {
+      "title": "What is the minimum, average and maximum number of genres per single movie?",
+      "text": "%pyspark\n\ndef count_genres(genres_str):\n    if genres_str == \"(no genres listed)\":\n        return 0\n    return len(genres_str.split(\"|\"))\n\ngenre_counts = movies.map(lambda x: count_genres(x[2]))\n\nmin_genres = genre_counts.min()\nmax_genres = genre_counts.max()\navg_genres = genre_counts.sum() / genre_counts.count()\n\n\n(min_genres, avg_genres, max_genres)",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-22T23:54:29+0000",
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "tableHide": false,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(0, 1.7180366211172164, 10)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=79",
+              "$$hashKey": "object:7150"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=80",
+              "$$hashKey": "object:7151"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=81",
+              "$$hashKey": "object:7152"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=82",
+              "$$hashKey": "object:7153"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742683115646_1577191797",
+      "id": "20230202-105047_385359575",
+      "dateCreated": "2025-03-22T22:38:35+0000",
+      "dateStarted": "2025-03-22T23:54:29+0000",
+      "dateFinished": "2025-03-22T23:54:31+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:6524"
+    },
+    {
+      "title": "For each genre, find the number of movies of that genre",
+      "text": "%pyspark\n\ndef explode_genres(movie):\n    movie_id, movie_name, genres_str = movie\n    if genres_str == \"(no genres listed)\":\n        return [(\"(no genres listed)\", 1)]\n    genres = genres_str.split(\"|\")\n    return [(genre, 1) for genre in genres]\n\nmovies \\\n    .flatMap(explode_genres) \\\n    .reduceByKey(lambda a, b: a + b) \\\n    .sortBy(lambda x: -x[1]) \\\n    .collect()",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T00:01:28+0000",
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "tableHide": false,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[('Drama', 25606), ('Comedy', 16870), ('Thriller', 8654), ('Romance', 7719), ('Action', 7348), ('Horror', 5989), ('Documentary', 5605), ('Crime', 5319), ('(no genres listed)', 5062), ('Adventure', 4145), ('Sci-Fi', 3595), ('Children', 2935), ('Animation', 2929), ('Mystery', 2925), ('Fantasy', 2731), ('War', 1874), ('Western', 1399), ('Musical', 1054), ('Film-Noir', 353), ('IMAX', 195)]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=88",
+              "$$hashKey": "object:7223"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=89",
+              "$$hashKey": "object:7224"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=90",
+              "$$hashKey": "object:7225"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742683115646_1324448845",
+      "id": "20230202-105047_1048842349",
+      "dateCreated": "2025-03-22T22:38:35+0000",
+      "dateStarted": "2025-03-23T00:01:28+0000",
+      "dateFinished": "2025-03-23T00:01:29+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:6525"
+    },
+    {
+      "title": "Show the list of unique genres represented in the dataset",
+      "text": "%pyspark\n\nmovies \\\n    .flatMap(lambda x: x[2].split(\"|\")) \\\n    .filter(lambda x: x != \"(no genres listed)\") \\\n    .distinct() \\\n    .collect()",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T00:01:53+0000",
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "tableHide": false,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "['Children', 'Fantasy', 'Romance', 'Drama', 'Action', 'Thriller', 'Horror', 'Sci-Fi', 'IMAX', 'Documentary', 'Musical', 'Western', 'Adventure', 'Animation', 'Comedy', 'Crime', 'Mystery', 'War', 'Film-Noir']\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=91",
+              "$$hashKey": "object:7291"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742683115646_1830693654",
+      "id": "20230202-105047_1583183624",
+      "dateCreated": "2025-03-22T22:38:35+0000",
+      "dateStarted": "2025-03-23T00:01:53+0000",
+      "dateFinished": "2025-03-23T00:01:53+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:6526"
+    },
+    {
+      "title": "What is the longest movie name in the dataset?",
+      "text": "%pyspark\n\ndef clean_title(title):\n    # Remove the year pattern (YYYY) from the title\n    return re.sub(r'\\s*\\(\\d{4}\\)\\s*', '', title)\n\nmovies \\\n    .map(lambda x: (len(clean_title(x[1])), clean_title(x[1]))) \\\n    .max()",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T00:08:49+0000",
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "tableHide": false,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(184, 'Godzilla, Mothra, and King Ghidorah: Giant Monsters All-Out Attack (Gojira, Mosura, Kingu Gidorâ: Daikaijû sôkôgeki) (Godzilla, Mothra and King Ghidorah: Giant Monsters All-Out Attack)')\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=97",
+              "$$hashKey": "object:7580"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742683115646_239311093",
+      "id": "20230202-105047_1630404728",
+      "dateCreated": "2025-03-22T22:38:35+0000",
+      "dateStarted": "2025-03-23T00:05:11+0000",
+      "dateFinished": "2025-03-23T00:05:12+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:6527"
+    },
+    {
+      "title": "Show the list of reused movie names",
+      "text": "%pyspark\n\nreused_names = movies \\\n    .map(lambda x: (x[1], 1)) \\\n    .reduceByKey(lambda a, b: a + b) \\\n    .filter(lambda x: x[1] > 1) \\\n    \nreused_names.collect()",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T00:07:27+0000",
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "tableHide": false,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[('Saturn 3 (1980)', 2), ('Hamlet (2000)', 2), ('Lagaan: Once Upon a Time in India (2001)', 2), ('Hostage (2005)', 2), ('War of the Worlds (2005)', 2), ('Casanova (2005)', 2), ('Little Man (2006)', 2), ('Chaos (2005)', 2), ('Noise (2007)', 2), ('Family Life (1971)', 2), ('Blackout (2007)', 2), ('Berlin Calling (2008)', 2), ('9 (2009)', 2), ('Weekend (2011)', 2), ('Good People (2014)', 2), ('Paradise (2013)', 2), ('Crush (2009)', 2), ('Deranged (2012)', 2), ('Ecstasy (2011)', 2), ('Grace (2014)', 2), ('The Reunion (2011)', 2), ('Rebirth (2011)', 2), ('Slow Burn (2000)', 2), ('Eden (2014)', 2), ('The Connection (2014)', 2), ('Black Field (2009)', 2), ('Inside (2012)', 2), ('Rose (2011)', 2), ('Macbeth (2015)', 2), ('The Dream Team (2012)', 2), ('Another World (2014)', 2), ('An Inspector Calls (2015)', 2), ('Operator (2015)', 2), ('The Tunnel (1933)', 2), ('Stranded (2015)', 2), ('The Forest (2016)', 2), ('Forsaken (2016)', 2), ('Camino (2016)', 2), ('The Midnight Man (2016)', 2), ('Office (2015)', 2), ('Apparition (2014)', 2), ('The Promise (2016)', 2), ('Classmates (2016)', 2), ('The Void (2016)', 2), ('Suckerfish (1999)', 2), ('Escape Room (2017)', 2), ('Veronica (2017)', 2), ('Let There Be Light (2017)', 2), ('Alone (2017)', 2), ('Haunted (2017)', 2), ('Cold War (2018)', 2), ('Delirium (2018)', 2), ('Feral (2018)', 2), ('Reset (2017)', 2), ('Believer (2018)', 2), ('The Angel (2018)', 2), ('Lost & Found (2018)', 2), ('I See You (2019)', 2), ('Beats (2019)', 2), ('The Lonely Island Presents: The Unauthorized Bash Brothers Experience (2019)', 2), ('American Woman (2019)', 2), ('Aladdin (1992)', 2), ('Men with Guns (1997)', 2), ('Dracula (1931)', 2), ('Gossip (2000)', 2), ('Clockstoppers (2002)', 2), ('Confessions of a Dangerous Mind (2002)', 2), ('Eros (2004)', 2), ('Enron: The Smartest Guys in the Room (2005)', 2), ('Journey to the Center of the Earth (2008)', 2), ('Seven Years Bad Luck (1921)', 2), ('Frozen (2010)', 2), ('Home (2008)', 2), ('Beneath (2013)', 2), ('Clear History (2013)', 2), ('Simple Things (2007)', 2), ('Delirium (2014)', 2), ('The Plague (2006)', 2), ('Holiday (2014)', 2), ('Absolution (2015)', 2), ('Tag (2015)', 2), ('Truth (2015)', 2), ('Escalation (1968)', 2), ('Shelter (2015)', 2), ('Interrogation (2016)', 2), ('The Boss (2016)', 2), ('The Break-In (2016)', 2), ('Savage (2011)', 2), ('Free Fall (2014)', 2), ('Sing (2016)', 2), ('Detour (2017)', 2), ('Home (2016)', 2), ('Ava (2017)', 2), ('Blockbuster (2017)', 2), ('Lucky (2017)', 2), ('Blood Money (2017)', 2), ('Contact (1992)', 2), ('Cargo (2017)', 2)]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=98",
+              "$$hashKey": "object:7407"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742683115646_2089079676",
+      "id": "20230202-105047_930526252",
+      "dateCreated": "2025-03-22T22:38:35+0000",
+      "dateStarted": "2025-03-23T00:07:27+0000",
+      "dateFinished": "2025-03-23T00:07:28+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:6528"
+    },
+    {
+      "title": "Using the result for the previous task, show top 10 most frequently used film names",
+      "text": "%pyspark\n\nreused_names \\\n    .sortBy(lambda x: -x[1]) \\\n    .take(10) ",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T00:08:30+0000",
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "tableHide": false,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[('Saturn 3 (1980)', 2), ('Hamlet (2000)', 2), ('Lagaan: Once Upon a Time in India (2001)', 2), ('Hostage (2005)', 2), ('War of the Worlds (2005)', 2), ('Casanova (2005)', 2), ('Little Man (2006)', 2), ('Chaos (2005)', 2), ('Noise (2007)', 2), ('Family Life (1971)', 2)]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=102",
+              "$$hashKey": "object:7465"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=103",
+              "$$hashKey": "object:7466"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=104",
+              "$$hashKey": "object:7467"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742683115646_391500274",
+      "id": "20230202-105047_695197143",
+      "dateCreated": "2025-03-22T22:38:35+0000",
+      "dateStarted": "2025-03-23T00:08:30+0000",
+      "dateFinished": "2025-03-23T00:08:30+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:6529"
+    },
+    {
+      "text": "%pyspark\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T00:08:30+0000",
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742688510407_1720546971",
+      "id": "paragraph_1742688510407_1720546971",
+      "dateCreated": "2025-03-23T00:08:30+0000",
+      "status": "READY",
+      "$$hashKey": "object:6530"
+    }
+  ],
+  "name": "Homework 1 - RDD basics - 2025",
+  "id": "2KR3CYNR9",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0-preview2",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/Homework 1 - RDD basics - 2025"
+}

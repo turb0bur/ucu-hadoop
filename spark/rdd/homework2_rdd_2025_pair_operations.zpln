@@ -1,0 +1,424 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%pyspark\n\ndef parse_movie_record(s):\n    id = s.split(\",\")[0]\n    genres = s.split(\",\")[-1]\n    name = ','.join(s.split(\",\")[1:-1])\n    name = name.replace('\"','')\n    return (id, name, genres)\n\n\ndef parse_rating_record(s):\n    parts = s.split(\",\")\n    user_id = parts[0]\n    movie_id = parts[1]\n    rating = float(parts[2])\n    timestamp = parts[3]\n    return (user_id, movie_id, rating, timestamp)\n    \nmovies_raw_data = sc.textFile('gs://oklev-uku-datasets/movie-ratings/movies.csv')\nmovies_header = movies_raw_data.first()\nmovies_without_header = movies_raw_data.filter(lambda line: line != movies_header)\nmovies = movies_without_header.map(parse_movie_record)\n\nratings_raw_data = sc.textFile('gs://oklev-uku-datasets/movie-ratings/ratings.csv')\nratings_header = ratings_raw_data.first()\nratings_without_header = ratings_raw_data.filter(lambda line: line != ratings_header)\nratings = ratings_without_header.map(parse_rating_record)\n\nprint(movies.take(5))\nprint(ratings.take(5))",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T01:00:25+0000",
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[('1', 'Toy Story (1995)', 'Adventure|Animation|Children|Comedy|Fantasy'), ('2', 'Jumanji (1995)', 'Adventure|Children|Fantasy'), ('3', 'Grumpier Old Men (1995)', 'Comedy|Romance'), ('4', 'Waiting to Exhale (1995)', 'Comedy|Drama|Romance'), ('5', 'Father of the Bride Part II (1995)', 'Comedy')]\n[('1', '296', 5.0, '1147880044'), ('1', '306', 3.5, '1147868817'), ('1', '307', 5.0, '1147868828'), ('1', '665', 5.0, '1147878820'), ('1', '899', 3.5, '1147868510')]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=134",
+              "$$hashKey": "object:3375"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=135",
+              "$$hashKey": "object:3376"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=136",
+              "$$hashKey": "object:3377"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=137",
+              "$$hashKey": "object:3378"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742688850358_259835360",
+      "id": "20170907-200823_323163859",
+      "dateCreated": "2025-03-23T00:14:10+0000",
+      "dateStarted": "2025-03-23T01:00:25+0000",
+      "dateFinished": "2025-03-23T01:00:26+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:2196"
+    },
+    {
+      "title": "For each user, find total number of ratings provided.",
+      "text": "%pyspark\n\nuser_ratings_count = ratings \\\n    .map(lambda x: (x[0], 1)) \\\n    .reduceByKey(lambda a, b: a + b)\n    \nuser_ratings_count.take(10)",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T00:59:07+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {},
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[('5', 101), ('7', 25), ('10', 53), ('38', 249), ('39', 29), ('42', 22), ('45', 44), ('47', 70), ('50', 81), ('55', 50)]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=133",
+              "$$hashKey": "object:3247"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742688850358_1606000357",
+      "id": "20170907-201504_56102511",
+      "dateCreated": "2025-03-23T00:14:10+0000",
+      "dateStarted": "2025-03-23T00:59:07+0000",
+      "dateFinished": "2025-03-23T01:00:03+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:2197"
+    },
+    {
+      "title": "How many movies an average user has ranked?",
+      "text": "%pyspark\n\ntotal_users = user_ratings_count.count()\ntotal_ratings = user_ratings_count \\\n    .map(lambda x: x[1]) \\\n    .sum()\n    \navg_ratings_per_user = total_ratings / total_users\n\nprint(\"Average movies ranked per user:\")\nprint(avg_ratings_per_user)",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T00:58:55+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {},
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Average movies ranked per user:\n153.80793153727367\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=131",
+              "$$hashKey": "object:3189"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=132",
+              "$$hashKey": "object:3190"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742688850358_2048318350",
+      "id": "20170907-210255_509274879",
+      "dateCreated": "2025-03-23T00:14:10+0000",
+      "dateStarted": "2025-03-23T00:58:55+0000",
+      "dateFinished": "2025-03-23T00:58:56+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:2198"
+    },
+    {
+      "title": "For each user, find the minimum, maximum and average rating he provided",
+      "text": "%pyspark\n\nuser_rating_stats = ratings \\\n    .map(lambda x: (x[0], x[2])) \\\n    .aggregateByKey(\n        (float('inf'), float('-inf'), 0, 0),  # (min, max, sum, count)\n        lambda acc, val: (min(acc[0], val), max(acc[1], val), acc[2] + val, acc[3] + 1),\n        lambda acc1, acc2: (min(acc1[0], acc2[0]), max(acc1[1], acc2[1]), acc1[2] + acc2[2], acc1[3] + acc2[3])\n    ) \\\n    .mapValues(lambda x: (x[0], x[1], x[2]/x[3]))  # (min, max, avg)\n\nprint(\"Min, max, and average ratings per user (sample):\")    \nprint(user_rating_stats.take(10))",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T00:56:05+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {},
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Min, max, and average ratings per user (sample):\n[('5', (2.0, 5.0, 3.7524752475247523)), ('7', (2.0, 5.0, 3.64)), ('10', (1.0, 5.0, 3.452830188679245)), ('38', (1.0, 5.0, 3.357429718875502)), ('39', (0.5, 5.0, 3.913793103448276)), ('42', (1.0, 5.0, 3.8181818181818183)), ('45', (2.0, 5.0, 3.7954545454545454)), ('47', (2.0, 5.0, 3.585714285714286)), ('50', (0.5, 5.0, 4.222222222222222)), ('55', (0.5, 5.0, 3.92))]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=130",
+              "$$hashKey": "object:3113"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742688850358_215996620",
+      "id": "20170907-205249_1462604242",
+      "dateCreated": "2025-03-23T00:14:10+0000",
+      "dateStarted": "2025-03-23T00:56:05+0000",
+      "dateFinished": "2025-03-23T00:57:10+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:2199"
+    },
+    {
+      "title": "Find top 10 movies by average rating",
+      "text": "%pyspark\n\nmovie_rating_stats = ratings \\\n    .map(lambda x: (x[1], x[2])) \\\n    .aggregateByKey(\n        (0, 0),  # (sum, count)\n        lambda acc, val: (acc[0] + val, acc[1] + 1),\n        lambda acc1, acc2: (acc1[0] + acc2[0], acc1[1] + acc2[1])\n    )\n\n# Filter movies with at least 100 ratings\npopular_movies = movie_rating_stats \\\n    .filter(lambda x: x[1][1] >= 100)\n\n# Calculate average rating\nmovie_avg_ratings = popular_movies \\\n    .mapValues(lambda x: x[0] / x[1])\n\n# Join with movie data to get movie names\nmovie_avg_with_names = movie_avg_ratings \\\n    .join(movies.map(lambda x: (x[0], x[1])))\n\n# Sort by average rating in descending order and take top 10\ntop_10_movies = movie_avg_with_names \\\n    .sortBy(lambda x: x[1][0], ascending=False) \\\n    .take(10)\n\nprint(\"Top 10 movies by average rating (with at least 100 ratings):\")\nfor movie in top_10_movies:\n    print(f\"Movie: {movie[1][1]}, Average Rating: {movie[1][0]:.2f}\")",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T00:45:42+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {},
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Top 10 movies by average rating (with at least 100 ratings):\nMovie: Planet Earth II (2016), Average Rating: 4.48\nMovie: Planet Earth (2006), Average Rating: 4.46\nMovie: Shawshank Redemption, The (1994), Average Rating: 4.41\nMovie: Band of Brothers (2001), Average Rating: 4.40\nMovie: Cosmos, Average Rating: 4.33\nMovie: Godfather, The (1972), Average Rating: 4.32\nMovie: Blue Planet II (2017), Average Rating: 4.29\nMovie: Usual Suspects, The (1995), Average Rating: 4.28\nMovie: Twin Peaks (1989), Average Rating: 4.27\nMovie: Godfather: Part II, The (1974), Average Rating: 4.26\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=126",
+              "$$hashKey": "object:2866"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=127",
+              "$$hashKey": "object:2867"
+            },
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=128",
+              "$$hashKey": "object:2868"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742688850358_605672568",
+      "id": "20170907-210004_1625380893",
+      "dateCreated": "2025-03-23T00:14:10+0000",
+      "dateStarted": "2025-03-23T00:45:42+0000",
+      "dateFinished": "2025-03-23T00:46:46+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:2200"
+    },
+    {
+      "title": "Provide a list of genre preferences for each user.",
+      "text": "%pyspark\n\n# It should be a dataset with the following structure:\n#  - userId\n#  - genre name\n#  - number of ratings\n#  - average rating\n\n# Create an RDD with (movieId, (userId, rating))\nuser_movie_ratings = ratings \\\n    .map(lambda x: (x[1], (x[0], x[2])))\n\n# Join with movies to get genre information\nuser_movie_genre_ratings = user_movie_ratings \\\n    .join(movies.map(lambda x: (x[0], x[2]))) \\\n    .map(lambda x: (x[1][0][0], (x[1][1], x[1][0][1])))  # (userId, (genres, rating))\n\n# Explode the genres for each movie rating\ndef explode_genres(user_genre_rating):\n    user_id = user_genre_rating[0]\n    genres = user_genre_rating[1][0].split('|')\n    rating = user_genre_rating[1][1]\n    return [(user_id, genre, rating) for genre in genres]\n\nuser_genre_ratings = user_movie_genre_ratings \\\n    .flatMap(explode_genres)  # (userId, genre, rating)\n\n# Group by userId and genre to calculate statistics\nuser_genre_stats = user_genre_ratings \\\n    .map(lambda x: ((x[0], x[1]), (x[2], 1))) \\\n    .reduceByKey(lambda a, b: (a[0] + b[0], a[1] + b[1])) \\\n    .map(lambda x: (x[0][0], x[0][1], x[1][1], x[1][0] / x[1][1]))  # (userId, genre, count, avg_rating)\n\nprint(\"Genre preferences for users (sample):\")\nfor preference in user_genre_stats.take(10):\n    print(f\"User: {preference[0]}, Genre: {preference[1]}, Ratings: {preference[2]}, Avg Rating: {preference[3]:.2f}\")\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T00:55:25+0000",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Genre preferences for users (sample):\nUser: 2413, Genre: Romance, Ratings: 181, Avg Rating: 3.82\nUser: 2884, Genre: Drama, Ratings: 81, Avg Rating: 4.35\nUser: 7808, Genre: Drama, Ratings: 87, Avg Rating: 3.93\nUser: 19730, Genre: Romance, Ratings: 12, Avg Rating: 3.92\nUser: 20967, Genre: Comedy, Ratings: 26, Avg Rating: 3.85\nUser: 24600, Genre: Drama, Ratings: 319, Avg Rating: 3.41\nUser: 42567, Genre: Comedy, Ratings: 36, Avg Rating: 4.14\nUser: 43138, Genre: Comedy, Ratings: 188, Avg Rating: 2.99\nUser: 45178, Genre: Romance, Ratings: 133, Avg Rating: 3.49\nUser: 50661, Genre: Drama, Ratings: 935, Avg Rating: 3.40\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://volodymyr-butko-20250322-m.us-central1-c.c.ucu-hadoop.internal:36683/jobs/job?id=129",
+              "$$hashKey": "object:3037"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742688850358_1232483701",
+      "id": "20170907-210326_346981091",
+      "dateCreated": "2025-03-23T00:14:10+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:2201",
+      "dateFinished": "2025-03-23T00:54:56+0000",
+      "dateStarted": "2025-03-23T00:47:46+0000"
+    },
+    {
+      "text": "%pyspark\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-03-23T00:47:46+0000",
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1742690866363_1537852192",
+      "id": "paragraph_1742690866363_1537852192",
+      "dateCreated": "2025-03-23T00:47:46+0000",
+      "status": "READY",
+      "focus": true,
+      "$$hashKey": "object:2887"
+    }
+  ],
+  "name": "Homework 2 - Pair RDD - 2025",
+  "id": "2KSJZNWXV",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0-preview2",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/Homework 2 - Pair RDD - 2025"
+}
